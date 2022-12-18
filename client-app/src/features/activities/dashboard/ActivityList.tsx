@@ -1,15 +1,10 @@
-import React, { SyntheticEvent, useState } from "react";
+import { observer } from "mobx-react-lite";
+import { SyntheticEvent, useState } from "react";
 import { Button, Item, Label, Segment } from "semantic-ui-react";
-import { Activity } from "../../../app/model/activity";
 import { useStore } from "../../../app/stores/store";
 
-interface Props {
-    activities: Activity[];
-    deleteActivity: (id: string) => void;
-    isSubmitting: boolean;
-}
 
-export default function ActivitiyList() {
+export default observer (function ActivitiyList() {
     const [target, setTarget] = useState('');
     const { activityStore } = useStore();
     const { deleteActivity, activitiesByDate, loading } = activityStore;
@@ -48,4 +43,4 @@ export default function ActivitiyList() {
             </Item.Group>
         </Segment>
     )
-}
+})
