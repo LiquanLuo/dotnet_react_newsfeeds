@@ -118,7 +118,7 @@ export default class ActivityStore {
             await agent.Activities.put(activity);
             runInAction(() => {
                 if (activity.id) {
-                    let updatedActivity = {...this.getActivity(activity.id), ...activity};
+                    let updatedActivity = { ...this.getActivity(activity.id), ...activity };
                     this.activityRegistry.set(activity.id, updatedActivity as Activity);
                     this.selectedActivity = updatedActivity as Activity;
                 }
@@ -182,19 +182,33 @@ export default class ActivityStore {
                 this.selectedActivity!.isCancelled = !this.selectedActivity?.isCancelled;
                 this.activityRegistry.set(this.selectedActivity!.id, this.selectedActivity!);
             }
-                
+
             )
-        } catch(error) {
+        } catch (error) {
             console.log(error)
-        } finally{
+        } finally {
             runInAction(() => this.loading = false);
         }
-     }
+    }
 
-     clearSelectedActivity =() => {
+    clearSelectedActivity = () => {
         this.selectedActivity = undefined;
-     }
-        
+    }
+    
+    // this attendee was followed / unfollowed by the current user
+    updateAttendeeFollowing = (username: string) => {
+        this.activityRegistry.forEach(activity => {
+            activity.attendees.forEach(attendee => {
+                if (attendee.username === username) {
+                    attendee.following ? attendee.followersCount-- : attendee.followersCount++;
+                    attendee.following = !attendee.following;
+                }
+            }
+
+            )
+        })
+    }
+
 
 
 }
