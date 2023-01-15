@@ -1,4 +1,4 @@
-# Social Network Website
+# Reactivities
 
 A social network website implemented in .NET 7 and React.
 
